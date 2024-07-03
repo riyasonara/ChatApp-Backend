@@ -1,6 +1,11 @@
 import { compare } from "bcrypt";
 import { User } from "../models/user.js";
-import { cookieOptions, emitEvent, sendToken, uploadFilesToCloudinary } from "../utils/features.js";
+import {
+  cookieOptions,
+  emitEvent,
+  sendToken,
+  uploadFilesToCloudinary,
+} from "../utils/features.js";
 import { TryCatch } from "../middleware/error.js";
 import { ErrorHandler } from "../utils/utility.js";
 import { Chat } from "../models/chat.js";
@@ -34,7 +39,6 @@ const newUser = TryCatch(async (req, res, next) => {
 
   sendToken(res, user, 201, "User created");
 });
-
 
 const login = TryCatch(async (req, res, next) => {
   const { username, password } = req.body;
@@ -86,7 +90,7 @@ const searchUser = TryCatch(async (req, res) => {
   const users = allUsersExceptMeAndFriends.map(({ _id, name, avatar }) => ({
     _id,
     name,
-    avatar:avatar.url,
+    avatar: avatar.url,
   }));
 
   return res.status(200).json({
@@ -166,6 +170,7 @@ const getMyNotifications = TryCatch(async (req, res) => {
     "sender",
     "name avatar"
   );
+
   const allRequests = requests.map(({ _id, sender }) => ({
     _id,
     sender: {
@@ -174,9 +179,10 @@ const getMyNotifications = TryCatch(async (req, res) => {
       avatar: sender.avatar.url,
     },
   }));
+
   return res.status(200).json({
     success: true,
-    requests: allRequests,
+    allRequests,
   });
 });
 
